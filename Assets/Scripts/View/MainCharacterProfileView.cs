@@ -7,7 +7,7 @@ public class MainCharacterProfileView : MonoBehaviour
 {
     [SerializeField] Image Image_CharacterIcon;
     [SerializeField] Text Text_CharacterName;
-    [SerializeField] Text Text_CharacterLevel;
+    [SerializeField] Text Text_CharacterLevel;  
 
     private MainCharacterProfileViewModel _vm;
 
@@ -37,6 +37,7 @@ public class MainCharacterProfileView : MonoBehaviour
         switch (e.PropertyName)
         {
             case nameof(_vm.Name):
+                
                 Text_CharacterName.text = $"이름 : {_vm.Name}";
                 break;
             case nameof(_vm.Level):
@@ -46,5 +47,4 @@ public class MainCharacterProfileView : MonoBehaviour
                 break;
         }
     }
-
 }

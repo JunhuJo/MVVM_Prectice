@@ -11,7 +11,7 @@ public class Player
     }
 
     public int UserId { get; private set; }
-    public string Name { get; private set; }
+    public string Name { get; set; }
     public int Level { get; set; }
 }
 
@@ -22,6 +22,7 @@ public class GameLogicManager
 
     private static Dictionary<int, Player> _playerDic = new Dictionary<int, Player>();
     private Action<int, int> _levelUpCallback;
+    private Action<int, string> _renameCallback;
 
     public static GameLogicManager Inst
     {
@@ -53,6 +54,19 @@ public class GameLogicManager
         _levelUpCallback -= levelupCallback;
     }
 
+
+    //=====
+    public void RegisterReNameCallback(Action<int, string> renameCallback)
+    {
+        _renameCallback += renameCallback;
+    }
+    public void UnRegisterReNameCallback(Action<int, string> renameCallback)
+    {
+        _renameCallback -= renameCallback;
+    }
+
+
+
     public void RequestLevelUp()
     {
         int reqUserId = _curSelectedPlayerId;
@@ -62,6 +76,32 @@ public class GameLogicManager
             var curPlayer = _playerDic[reqUserId];
             curPlayer.Level++;
             _levelUpCallback.Invoke(reqUserId, curPlayer.Level);
+        }
+    }
+
+    public void RequestLevelUpDouble()
+    {
+        int reqUserId = _curSelectedPlayerId;
+
+        if (_playerDic.ContainsKey(reqUserId))
+        {
+            var curPlayer = _playerDic[reqUserId];
+            curPlayer.Level ++;
+            curPlayer.Level ++;
+            _levelUpCallback.Invoke(reqUserId, curPlayer.Level);
+        }
+    }
+
+    public void RequestRename()
+    {
+        int reqUserId = _curSelectedPlayerId;
+
+        if (_playerDic.ContainsKey(reqUserId))
+        {
+            
+            var curPlayer = _playerDic[reqUserId];
+            curPlayer.Name = "쿵야";
+            _renameCallback.Invoke(reqUserId, curPlayer.Name);
         }
     }
 
